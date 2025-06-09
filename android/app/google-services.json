@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "608970534032",
+    "project_id": "steel-soldier",
+    "storage_bucket": "steel-soldier.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:608970534032:android:3220a22c5c17b54c763c15",
+        "android_client_info": {
+          "package_name": "com.mexifry360.steel_soldier"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBjEnW92EZyaztF49cYF4KDsPQXeXVyyJo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
