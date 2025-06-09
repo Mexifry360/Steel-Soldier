@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'screens/home_screen.dart';
-import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'firebase_options.dart';
+import 'screens/home_screen.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  // ✅ Specify the file name
   await dotenv.load(fileName: ".env");
 
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+  // ✅ Prevent duplicate initialization
+  if (Firebase.apps.isEmpty) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  }
 
   runApp(const SteelSoldierApp());
 }

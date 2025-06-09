@@ -13,12 +13,21 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  static const List<Widget> _pages = [
-    DashboardScreen(),
-    TrackingScreen(),
-    SupervisorView(),
-    SettingsScreen(),
-  ];
+
+  Widget _getPage(int index) {
+    switch (index) {
+      case 0:
+        return const DashboardScreen();
+      case 1:
+        return const TrackingScreen();
+      case 2:
+        return const SupervisorView();
+      case 3:
+        return const SettingsScreen();
+      default:
+        return const DashboardScreen();
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -29,7 +38,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: _getPage(_selectedIndex),
       bottomNavigationBar: BottomNavigationBar(
         items: const [
           BottomNavigationBarItem(icon: Icon(Icons.dashboard), label: 'Dashboard'),

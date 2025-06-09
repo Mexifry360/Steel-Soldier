@@ -1,30 +1,26 @@
+// File: lib/firebase_options.dart
+
 import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
-import 'dart:io' show Platform;
+import 'package:flutter/foundation.dart' show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
-    if (Platform.isAndroid) {
-      return android;
-    } else if (Platform.isIOS) {
-      return ios;
+    if (kIsWeb) {
+      throw UnsupportedError('Web is not supported in this setup');
     }
-    throw UnsupportedError('DefaultFirebaseOptions are not supported for this platform.');
+    switch (defaultTargetPlatform) {
+      case TargetPlatform.android:
+        return android;
+      default:
+        throw UnsupportedError('DefaultFirebaseOptions are not supported for this platform.');
+    }
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'YOUR_ANDROID_API_KEY',
-    appId: 'YOUR_ANDROID_APP_ID',
-    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_STORAGE_BUCKET',
-  );
-
-  static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'YOUR_IOS_API_KEY',
-    appId: 'YOUR_IOS_APP_ID',
-    messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-    projectId: 'YOUR_PROJECT_ID',
-    storageBucket: 'YOUR_STORAGE_BUCKET',
-    iosBundleId: 'com.example.steelsoldier',
+    apiKey: 'AIzaSyBjEnW92EZyaztF49cYF4KDsPQXeXVyyJo',
+    appId: '1:608970534032:android:3220a22c5c17b54c763c15',
+    messagingSenderId: '608970534032',
+    projectId: 'steel-soldier',
+    storageBucket: 'steel-soldier.firebasestorage.app',
   );
 }

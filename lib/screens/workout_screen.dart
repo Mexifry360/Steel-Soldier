@@ -1,8 +1,9 @@
-
 import 'package:flutter/material.dart';
 
 class WorkoutScreen extends StatelessWidget {
-  final List<Map<String, String>> workouts = [
+  const WorkoutScreen({super.key});
+
+  final List<Map<String, String>> workouts = const [
     {'name': 'Deadlift (3RM)', 'icon': 'assets/images/deadlift.png'},
     {'name': 'Standing Power Throw', 'icon': 'assets/images/power_throw.png'},
     {'name': 'Push-Ups', 'icon': 'assets/images/pushup.png'},
@@ -15,17 +16,17 @@ class WorkoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Today's Workout'),
+        title: const Text("Today's Workout"),
         backgroundColor: Colors.green[900],
       ),
       body: ListView.builder(
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         itemCount: workouts.length,
         itemBuilder: (context, index) {
           final item = workouts[index];
           return Card(
             elevation: 3,
-            margin: EdgeInsets.symmetric(vertical: 8),
+            margin: const EdgeInsets.symmetric(vertical: 8),
             child: ListTile(
               leading: Image.asset(
                 item['icon']!,
@@ -34,11 +35,11 @@ class WorkoutScreen extends StatelessWidget {
               ),
               title: Text(
                 item['name']!,
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
               trailing: ElevatedButton(
                 onPressed: () {},
-                child: Text('Done'),
+                child: const Text('Done'),
               ),
             ),
           );
