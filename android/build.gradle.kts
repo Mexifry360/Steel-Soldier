@@ -1,8 +1,8 @@
 import org.gradle.api.tasks.Delete
 import org.gradle.kotlin.dsl.*
 
+// Apply Google Services plugin but not globally
 plugins {
-    // ✅ Applies Google Services plugin, but not globally enabled yet
     id("com.google.gms.google-services") version "4.4.2" apply false
 }
 
@@ -13,7 +13,7 @@ allprojects {
     }
 }
 
-// 🧹 Optional: relocate build directories for better project structure
+// Relocate build directories for a cleaner structure
 val newBuildDir = rootProject.layout.buildDirectory.dir("../../build").get()
 rootProject.layout.buildDirectory.set(newBuildDir)
 
@@ -22,7 +22,7 @@ subprojects {
     evaluationDependsOn(":app")
 }
 
-// 🧼 Clean task to delete custom build directory
+// Clean task to delete the custom build directory
 tasks.register<Delete>("clean") {
     delete(rootProject.layout.buildDirectory)
 }
