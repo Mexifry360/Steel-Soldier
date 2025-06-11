@@ -7,14 +7,12 @@ import 'screens/onboarding_screen.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: ".env");
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  if (Firebase.apps.isEmpty) {
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-  }
+  final prefs = await SharedPreferences.getInstance();
+  final isFirstTime = prefs.getBool('onboarding_complete') ?? false;
 
-  runApp(const SteelSoldierApp());
+  runApp(SteelSoldierApp(startScreen: isFirstTime ? const PinVerifyScreen() : const OnboardingSetupScreen()));
 }
 
 class SteelSoldierApp extends StatelessWidget {
