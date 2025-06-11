@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -21,7 +22,7 @@ class AIWorkoutService {
     final response = await http.post(
       Uri.parse("https://api.openai.com/v1/chat/completions"),
       headers: {
-        "Authorization": "Bearer YOUR_OPENAI_API_KEY",
+        "Authorization": "Bearer ${dotenv.env['AI_API_KEY']}",
         "Content-Type": "application/json",
       },
       body: jsonEncode({
@@ -42,6 +43,8 @@ class AIWorkoutService {
         'created_at': DateTime.now(),
         'plan': aiPlan,
       });
+    } else {
+      throw Exception("AI response missing or malformed");
     }
   }
 

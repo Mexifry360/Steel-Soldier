@@ -1,8 +1,6 @@
-
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'home_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'pin_setup_screen.dart'; // Ensure this import is correct and the file exists
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -12,70 +10,67 @@ class OnboardingScreen extends StatefulWidget {
 }
 
 class _OnboardingScreenState extends State<OnboardingScreen> {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
-  final _formKey = GlobalKey<FormState>();
-  final Map<String, String> responses = {};
+  Future<void> _completeOnboarding() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboarding_complete', true);
+    await prefs.setString('user_name', _nameController.text);
+    await prefs.setString('user_email', _emailController.text);
 
-  final List<Map<String, String>> questions = [
-    {'key': 'rank', 'label': 'What is your current Army rank?'},
-    {'key': 'platoon', 'label': 'Which unit or platoon are you assigned to?'},
-    {'key': 'injuries', 'label': 'Do you have any existing injuries or physical limitations?'},
-    {'key': 'acft_scores', 'label': 'What are your current ACFT event scores? (optional)'},
-    {'key': 'goal', 'label': 'What is your top fitness goal?'},
-    {'key': 'frequency', 'label': 'How many days per week can you train?'},
-    {'key': 'equipment', 'label': 'Do you have access to gym equipment?'},
-    {'key': 'time', 'label': 'What time of day do you prefer to train?'},
-    {'key': 'fitness_level', 'label': 'Rate your fitness level (Beginner, Intermediate, Advanced)'},
-    {'key': 'ai_adjust', 'label': 'Let AI adjust workouts based on your feedback? (Yes/No)'},
-  ];
-
-  Future<void> _submit() async {
-  if (!_formKey.currentState!.validate()) return;
-  _formKey.currentState!.save();
-
-  final uid = _auth.currentUser?.uid;
-  if (uid == null) return;
-
-  await _db.collection('users').doc(uid).set({
-    'onboarding': responses,
-    'onboardingComplete': true,
-  }, SetOptions(merge: true)); // 🔁 Merge to avoid overwriting existing data
-
-  if (!mounted) return;
-  Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const HomeScreen()));
-}
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => const PinSetupScreen()),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Onboarding')),
-      body: Form(
-        key: _formKey,
-        child: ListView.builder(
-          padding: const EdgeInsets.all(16),
-          itemCount: questions.length + 1,
-          itemBuilder: (context, index) {
-            if (index == questions.length) {
-              return Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: ElevatedButton(
-                  onPressed: _submit,
-                  child: const Text('Finish Setup'),
-                ),
-              );
-            }
-            final question = questions[index];
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
-              child: TextFormField(
-                decoration: InputDecoration(labelText: question['label']),
-                validator: (val) => val == null || val.isEmpty ? 'Required' : null,
-                onSaved: (val) => responses[question['key']!] = val ?? '',
+      backgroundColor: const Color(0xFF121212),
+      appBar: AppBar(
+        title: const Text("Onboarding"),
+        backgroundColor: Colors.green.shade900,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("Welcome!", style: TextStyle(fontSize: 24, color: Colors.white)),
+            const SizedBox(height: 20),
+            TextField(
+              controller: _nameController,
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                labelText: "Full Name",
+                labelStyle: TextStyle(color: Colors.white70),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
               ),
-            );
-          },
+            ),
+            const SizedBox(height: 20),
+            TextField(
+              controller: _emailController,
+              style: const TextStyle(color: Colors.white),
+              decoration: const InputDecoration(
+                labelText: "Email",
+                labelStyle: TextStyle(color: Colors.white70),
+                enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: Colors.white70)),
+              ),
+            ),
+            const Spacer(),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: _completeOnboarding,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green.shade700,
+                ),
+                child: const Text("Finish Setup"),
+              ),
+            )
+          ],
         ),
       ),
     );

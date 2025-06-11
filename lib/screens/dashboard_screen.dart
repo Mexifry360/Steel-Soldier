@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 // Import destination screens
-import 'goals_screen.dart';
-import 'graphs_screen.dart';
-import 'calendar_screen.dart';
-import 'conditioning_screen.dart';
-import 'ai_coach_screen.dart';
+import 'package:steel_soldier/screens/goals_screen.dart';
+import 'package:steel_soldier/screens/graphs_screen.dart';
+import 'package:steel_soldier/screens/calendar_screen.dart';
+import 'package:steel_soldier/screens/conditioning_screen.dart';
+import 'package:steel_soldier/screens/ai_workout_plan_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
   const DashboardScreen({super.key});
@@ -33,7 +33,8 @@ class DashboardScreen extends StatelessWidget {
             _buildCard(context, '📈 Progress Graphs', 'ACFT, Volume & Pain Trends', const GraphsScreen()),
             _buildCard(context, '📅 Smart Calendar', 'View planned & makeup workouts', const CalendarScreen()),
             _buildCard(context, '💀 Combat Conditioning', 'Ruck, Sprints, Mobility', const ConditioningScreen()),
-            _buildCard(context, '🧠 AI Coach', 'Analyzing readiness and adaptation...', const AiCoachScreen()),
+			_buildCard(context, '🧠 AI Coach', 'Analyze readiness and generate plans', const AIWorkoutPlanScreen()),
+
           ],
         ),
       ),

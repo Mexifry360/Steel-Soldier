@@ -15,7 +15,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  final _storage = const FlutterSecureStorage();
+  final _storage = const FlutterSecureStorage(); //Remove the line if not used
 
   Future<void> _login() async {
     try {
